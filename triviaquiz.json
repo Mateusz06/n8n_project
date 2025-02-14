@@ -1,0 +1,115 @@
+{
+    "nodes": [
+        {
+            "parameters": {
+                "url": "https://opentdb.com/api.php?amount=1",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                420,
+                -360
+            ],
+            "id": "b2f1a9cf-7611-4fae-abee-619f7ee3787b",
+            "name": "HTTP Request1"
+        },
+        {
+            "parameters": {
+                "jsCode": "// Retrieve the incoming data items using the new API\nconst items = $input.all();\n\n// Get the response from the API\nconst response = items[0].json;\n\n// Make sure there is a question\nif (!response.results || response.results.length === 0) {\n  throw new Error(\"No trivia question returned\");\n}\n\n// Get the first question from the results\nconst questionData = response.results[0];\n\n// Get the question and answers\nconst question = questionData.question;\nconst correctAnswer = questionData.correct_answer;\nconst incorrectAnswers = questionData.incorrect_answers;\n\n// Combine correct and incorrect answers into one array and shuffle them\nlet allAnswers = incorrectAnswers.concat([correctAnswer]);\nallAnswers = allAnswers.sort(() => Math.random() - 0.5);\n\n// Return the question and answers in a simple format\nreturn [{\n  json: {\n    question: question,\n    correctAnswer: correctAnswer,\n    options: allAnswers,  // Now we're returning them as \"options\"\n    category: questionData.category,\n    difficulty: questionData.difficulty\n  }\n}];\n"
+            },
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                580,
+                -360
+            ],
+            "id": "83b2fd10-4332-4e37-bca6-f30abdb64e28",
+            "name": "Code1"
+        },
+        {
+            "parameters": {
+                "authentication": "webhook",
+                "content": "=**Trivia Time!**  \nStart here: https://gorgeous-mayfly-meet.ngrok-free.app/form/fe2bd031-41b1-4d7d-8e53-791878a93298\n",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.discord",
+            "typeVersion": 2,
+            "position": [
+                740,
+                -360
+            ],
+            "id": "2dedbdec-9833-4adc-bda1-8f0d62440d50",
+            "name": "Discord1",
+            "credentials": {
+                "discordWebhookApi": {
+                    "id": "Y2LXw96OsFe4WeRH",
+                    "name": "Discord Webhook account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "channelIds": [
+                    "1338795052318588951"
+                ],
+                "pattern": "contain",
+                "value": "start quiz"
+            },
+            "type": "n8n-nodes-discord.discordTrigger",
+            "typeVersion": 1,
+            "position": [
+                260,
+                -360
+            ],
+            "id": "94b561cd-461a-47c8-b208-bc56d52730f7",
+            "name": "Discord Trigger1",
+            "webhookId": "94cce189-90c8-4c5f-b200-2a574c6b7cba",
+            "credentials": {
+                "discordApi": {
+                    "id": "GuYj5lPikrXVL2pc",
+                    "name": "Discord App account"
+                }
+            }
+        }
+    ],
+    "connections": {
+        "HTTP Request1": {
+            "main": [
+                [
+                    {
+                        "node": "Code1",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Code1": {
+            "main": [
+                [
+                    {
+                        "node": "Discord1",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Discord Trigger1": {
+            "main": [
+                [
+                    {
+                        "node": "HTTP Request1",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "pinData": {},
+    "meta": {
+        "instanceId": "29584273d5d902081a91aeda22a086c3c1f6d5c88061e574042e08e14cfc345c"
+    }
+}
