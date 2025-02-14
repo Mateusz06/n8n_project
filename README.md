@@ -40,12 +40,6 @@ Het project bestaat uit twee workflows:
 4. Klik op verzenden en ga terug naar Discord.
 5. Bekijk het resultaat in Discord!
 
-## 🔧 Mogelijke Verbeteringen
-- Meerdere vragen per quizronde.
-- Score bijhouden per gebruiker.
-- Meerdere moeilijkheidsgraden toevoegen.
-- UI verbeteren met aangepaste styling in het formulier.
-
 ## 📄 Breakpoints
 1. Beter plannen
 2. Beter onze concentratie erbij houden
