@@ -46,8 +46,7 @@ Het project bestaat uit twee workflows:
 - Meerdere moeilijkheidsgraden toevoegen.
 - UI verbeteren met aangepaste styling in het formulier.
 
-## 📄 Licentie
-Dit project is open-source en beschikbaar onder de MIT-licentie.
-
-Veel quizplezier! 🎉
-
+## 📄 Breakpoints
+1. Beter plannen
+2. Beter onze concentratie erbij houden
+3. Hulp vragen als we hulp nodig hebben
